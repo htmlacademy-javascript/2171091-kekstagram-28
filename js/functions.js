@@ -24,14 +24,13 @@ checkPalindrom ('Довод');
 
 /* Функция, которая принимает строку, извлекает содержащиеся в ней цифры от 0 до 9 и
 возвращает их в виде целого положительного числа. Если в строке нет ни одной цифры, функция должна вернуть NaN */
-let number = '';
 let extractNumber = function (string) {
+  let number = '';
   if (typeof string === 'number') {
     string = String(string);
   }
   for (let i = 0; i < string.length; i++) {
-    if (isNaN(parseInt(string[i], 10))) {/* это норм, что я тут пустые скобки оставила?*/}
-    else {
+    if (isNaN(parseInt(string[i], 10)) !== true) {
       number += string[i];
     }
   }
@@ -45,13 +44,13 @@ extractNumber('1 кефир, 0.5 батона');
  — и возвращает исходную строку, дополненную указанными символами до заданной длины.
  Символы добавляются в начало строки. Если исходная строка превышает заданную длину, она не должна обрезаться.
 Если «добивка» слишком длинная, она обрезается с конца. */
-let newString = '';
 let functionName = function (string, minString, extraSymbolsString) {
+  let newString = '';
   if (minString <= string.length) {
     return string;
   } else {
     for (let i = 0; i < minString - string.length; i++) {
-      extraSymbolsString = extraSymbolsString.repeat(100); /* Не пойму, как без padStart() сделать нужное повторение символов. */
+      extraSymbolsString = extraSymbolsString.repeat(minString - string.length);
       newString += extraSymbolsString[i];
     }
   }
@@ -59,4 +58,4 @@ let functionName = function (string, minString, extraSymbolsString) {
   return newString;
 };
 
-functionName('quq', 6, 'we');
+functionName('quq', 8, 'we');

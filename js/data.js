@@ -45,19 +45,18 @@ const COMMENTS_COUNT = 25;
 /* создаем уникальные Id*/
 
 const getId = createRandomIdFromRangeGenerator(1, COMMENTS_COUNT);
+const getUrl = createRandomIdFromRangeGenerator(1, COMMENTS_COUNT);
 
 /* создаем массив*/
 
-const createComment = () => {
-  return {
-    id: getId(),
-    avatar: 'img/avatar-' + getRandomInteger(1, 6) + '.svg',
-    message: getRandomArrayElement(TEXT),
-    name: getRandomArrayElement(NAMES),
-  };
-};
+const createComment = () => ({
+  id: getId(),
+  url: 'photos/' + getUrl() + '.jpg',
+  avatar: 'img/avatar-' + getRandomInteger(1, 6) + '.svg',
+  comments: getRandomArrayElement(TEXT),
+  likes: getRandomInteger(15, 200),
+  name: getRandomArrayElement(NAMES),
+});
 
-const comments = Array.from({length: COMMENTS_COUNT}, createComment);
-console.log (comments);
-
-export {comments};
+const createComments = () => Array.from({length: COMMENTS_COUNT}, createComment);
+export {createComments};

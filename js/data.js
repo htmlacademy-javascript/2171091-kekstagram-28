@@ -40,23 +40,41 @@ const TEXT = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
+const DESCRIPTION = [
+  'Кайфуйте!',
+  'Жизнь одна)',
+  'Memories',
+  'Красота в каждом кадре',
+  '#nofilter',
+  'Люблю жизнь!',
+  'Скучаю, обнимаю',
+  '<3',
+];
+
 const COMMENTS_COUNT = 25;
 
 /* создаем уникальные Id*/
 
 const getId = createRandomIdFromRangeGenerator(1, COMMENTS_COUNT);
 const getUrl = createRandomIdFromRangeGenerator(1, COMMENTS_COUNT);
+const getCommentId = createRandomIdFromRangeGenerator(1, TEXT.length);
 
 /* создаем массив*/
 
 const createComment = () => ({
-  id: getId(),
-  url: 'photos/' + getUrl() + '.jpg',
+  id: getCommentId(),
   avatar: 'img/avatar-' + getRandomInteger(1, 6) + '.svg',
-  comments: getRandomArrayElement(TEXT),
-  likes: getRandomInteger(15, 200),
+  message: getRandomArrayElement(TEXT),
   name: getRandomArrayElement(NAMES),
 });
 
-const createComments = () => Array.from({length: COMMENTS_COUNT}, createComment);
+const createPost = () => ({
+  id: getId(),
+  url: 'photos/' + getUrl() + '.jpg',
+  description: getRandomArrayElement(DESCRIPTION),
+  likes: getRandomInteger(15, 200),
+  comments: Array.from({length: getRandomInteger(1, COMMENTS_COUNT)}, createComment),
+});
+
+const createComments = () => Array.from({length: COMMENTS_COUNT}, createPost);
 export {createComments};

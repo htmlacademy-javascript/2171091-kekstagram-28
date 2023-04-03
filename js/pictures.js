@@ -4,17 +4,20 @@ const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const similarComments = createComments();
+const pictures = createComments();
 
-const pictureFragment = document.createDocumentFragment();
-
-similarComments.forEach(({url, likes, comments}) => {
-  const createdPicture = pictureTemplate.cloneNode(true);
-  createdPicture.querySelector('.picture__img').src = url;
-  createdPicture.querySelector('.picture__likes').textContent = likes;
-  createdPicture.querySelector('.picture__comments').textContent = comments.length;
-  pictureFragment.appendChild(createdPicture);
-
-});
-
-picturesList.appendChild(pictureFragment);
+const renderPictures = () => {
+  const pictureFragment = document.createDocumentFragment();
+  pictures.forEach(({id, url, description, likes, comments}) => {
+    const createdPicture = pictureTemplate.cloneNode(true);
+    createdPicture.querySelector('.picture__img').src = url;
+    createdPicture.querySelector('.picture__likes').textContent = likes;
+    createdPicture.querySelector('.picture__comments').textContent = comments.length;
+    createdPicture.querySelector('.picture__img').alt = description;
+    createdPicture.dataset.pictureId = id;
+    pictureFragment.appendChild(createdPicture);
+  });
+  picturesList.appendChild(pictureFragment);
+};
+renderPictures();
+export {pictures};

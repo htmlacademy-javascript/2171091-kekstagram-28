@@ -1,13 +1,19 @@
 import {isEscapeKey} from './util.js';
 import {setDefaultScale} from './zoom.js';
 import {resetEffects} from './effects.js';
-
+import {checkUploadForm} from './validation.js';
+import {showAlert} from './util.js';
+import {sendData} from './api.js';
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
 const uploadCancel = uploadForm.querySelector('#upload-cancel');
-const inputHashtag = uploadForm.querySelector('.text__hashtags');
-const inputComment = uploadForm.querySelector('.text__description');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
+const submitButton = uploadForm.querySelector('#upload-submit');
+
+const submitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -46,4 +52,30 @@ uploadCancel.addEventListener('click', () => {
   uploadFile.value = '';
 });
 
-export {uploadForm, inputHashtag, inputComment};
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = submitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = submitButtonText.IDLE;
+};
+
+const setUploadFormSubmit = (onSuccess) => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    if (checkUploadForm) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .catch((err) => {
+          showAlert(err.message);
+        }
+        )
+        .finally (unblockSubmitButton);
+    }
+  });
+};
+
+export {showEditor, closeEditor, setUploadFormSubmit};

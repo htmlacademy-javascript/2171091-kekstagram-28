@@ -1,12 +1,12 @@
-import {createComments} from './data.js';
+//import {createComments} from './data.js';
 const picturesList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const pictures = createComments();
+//const pictures = createComments();
 
-const renderPictures = () => {
+const renderPictures = (pictures) => {
   const pictureFragment = document.createDocumentFragment();
   pictures.forEach(({id, url, description, likes, comments}) => {
     const createdPicture = pictureTemplate.cloneNode(true);
@@ -19,5 +19,4 @@ const renderPictures = () => {
   });
   picturesList.appendChild(pictureFragment);
 };
-renderPictures();
-export {pictures};
+export {renderPictures};

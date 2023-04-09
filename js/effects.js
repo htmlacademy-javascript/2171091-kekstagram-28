@@ -6,7 +6,7 @@ const sliderContainer = previewContainer.querySelector('.img-upload__effect-leve
 const effectLevel = previewContainer.querySelector('.effect-level__value');
 
 const FILTERS = [
-  {name: 'original', filter: 'none', min: 0, max: 100, step: 1, unit: ''},
+  {name: 'none', filter: 'none', min: 0, max: 100, step: 1, unit: ''},
   {name: 'chrome', filter: 'grayscale', min: 0, max: 1, step: 0.1, unit: ''},
   {name: 'sepia', filter: 'sepia', min: 0, max: 1, step: 0.1, unit: ''},
   {name: 'marvin', filter: 'invert', min: 0, max: 100, step: 1, unit: '%'},
@@ -28,7 +28,6 @@ const hideSlider = () => {
 const checkIfDefault = () => {
   if (currentEffect === DEFAULT_EFFECT) {
     hideSlider();
-    uploadedImage.style.filter = 'none';
   } else {
     showSlider();
   }
@@ -52,13 +51,8 @@ const updateSlider = () => {
       max: currentEffect.max,
     },
     step: currentEffect.step,
-    start: currentEffect.max
+    start: currentEffect.max,
   });
-};
-
-const resetEffects = () => {
-  currentEffect = DEFAULT_EFFECT;
-  updateSlider();
 };
 
 //переключать фильтры
@@ -69,6 +63,7 @@ const onEffectsChange = (evt) => {
     updateSlider();
   }
 };
+
 //двигать ползунок
 const onSliderUpdate = () => {
   const sliderValue = slider.noUiSlider.get();
@@ -77,6 +72,13 @@ const onSliderUpdate = () => {
 };
 
 effectsContainer.addEventListener('change', onEffectsChange);
+
 slider.noUiSlider.on('update', onSliderUpdate);
 
-export {resetEffects};
+const resetEffects = () => {
+  currentEffect = DEFAULT_EFFECT;
+  updateSlider();
+  effectsContainer.removeEventListener('change', onEffectsChange);
+};
+
+export {resetEffects, onEffectsChange};

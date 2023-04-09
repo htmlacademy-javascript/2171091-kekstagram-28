@@ -1,6 +1,6 @@
 import {isEscapeKey} from './util.js';
 import {setDefaultScale} from './zoom.js';
-import {resetEffects} from './effects.js';
+import {resetEffects, onEffectsChange} from './effects.js';
 import {checkUploadForm} from './validation.js';
 import {showAlert} from './util.js';
 import {sendData} from './api.js';
@@ -21,6 +21,8 @@ const onDocumentKeydown = (evt) => {
     uploadOverlay.classList.add('hidden');
     document.body.classList.remove('modal-open');
     document.getElementById('upload-select-image').reset();
+    uploadForm.removeEventListener('change', onEffectsChange);
+    uploadCancel.removeEventListener('click', closeEditor);
   }
 };
 
@@ -29,8 +31,9 @@ const showEditor = () => {
   uploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
+  uploadForm.addEventListener('change',onEffectsChange);
+  uploadCancel.addEventListener('click', closeEditor);
   setDefaultScale();
-  resetEffects();
 };
 
 /*функция скрыть редактор*/
@@ -38,6 +41,9 @@ const closeEditor = () => {
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
+  uploadForm.removeEventListener('change', onEffectsChange);
+  uploadFile.value = '';
+  resetEffects();
 };
 
 /*показать редактор*/
@@ -49,7 +55,6 @@ uploadFile.addEventListener('change', (evt) => {
 /*закрыть редактор крестиком*/
 uploadCancel.addEventListener('click', () => {
   closeEditor ();
-  uploadFile.value = '';
 });
 
 const blockSubmitButton = () => {

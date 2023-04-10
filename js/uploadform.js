@@ -19,9 +19,13 @@ const submitButtonText = {
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
+    resetEffects();
+    uploadFile.value = '';
+    hashtagField.value = '';
+    descriptionField.value = '';
     uploadOverlay.classList.add('hidden');
     document.body.classList.remove('modal-open');
-    document.getElementById('upload-select-image').reset();
+    uploadForm.reset();
     uploadForm.removeEventListener('change', onEffectsChange);
     uploadCancel.removeEventListener('click', closeEditor);
   }
@@ -47,6 +51,7 @@ const removeFocusAndBlur = (target) => {
 
 /*функция показать редактор*/
 const showEditor = () => {
+  resetEffects();
   uploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
@@ -60,8 +65,10 @@ const showEditor = () => {
 /*функция скрыть редактор*/
 const closeEditor = () => {
   resetEffects();
-  setDefaultScale();
   uploadFile.value = '';
+  hashtagField.value = '';
+  descriptionField.value = '';
+  uploadForm.reset();
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);

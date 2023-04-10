@@ -1,14 +1,11 @@
-import {pictures} from './main.js';
 import {isEscapeKey} from './util.js';
 
 const body = document.querySelector('body');
 const popupScreen = document.querySelector('.big-picture');
 const popupScreenClose = popupScreen.querySelector('.big-picture__cancel');
-const pictureContainer = document.querySelector('.pictures');
 const commentsCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 const commentsList = document.querySelector('.social__comments');
-/*шаблон комментария (добавила в разметку)*/
 const commentTemplate = document.querySelector('#comment')
   .content
   .querySelector('.social__comment');
@@ -21,7 +18,11 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-/*заполнить popup данными фото*/
+const COMMENTS_PART = 5;
+let likesCounter = 0;
+let commentsShown = 0;
+let comments = [];
+
 const renderPictureData = (({url, likes, comments, description}) => {
   popupScreen.querySelector('.big-picture__img img').src = url;
   popupScreen.querySelector('.likes-count').textContent = likes;
@@ -30,7 +31,6 @@ const renderPictureData = (({url, likes, comments, description}) => {
   popupScreen.querySelector('.social__caption').textContent = description;
 });
 
-/*заполнить popup данными комментария*/
 const renderCommentData = (({avatar, name, message}) => {
   const createdComment = commentTemplate.cloneNode(true);
   createdComment.querySelector('.social__picture').src = avatar;
@@ -38,11 +38,6 @@ const renderCommentData = (({avatar, name, message}) => {
   createdComment.querySelector('.social__text').textContent = message;
   return createdComment;
 });
-
-/*показать комментарии частями*/
-const COMMENTS_PART = 5;
-let commentsShown = 0;
-let comments = [];
 
 const renderComments = () => {
   commentsShown += COMMENTS_PART;
@@ -65,12 +60,12 @@ const renderComments = () => {
   commentsCount.innerHTML = `${commentsShown} из <span class="comments-count">${comments.length}</span> комментариев`;
 };
 
-/*функция открыть картинку*/
 const showBigPicture = (data) => {
   popupScreen.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   commentsLoader.addEventListener('click', onCommentsLoaderClick);
+  likesCounter = data.likes;
   renderPictureData(data);
   comments = data.comments;
   if (comments.length > 0) {
@@ -78,7 +73,6 @@ const showBigPicture = (data) => {
   }
 };
 
-/*функция закрыть картинку*/
 const closeBigPicture = () => {
   popupScreen.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -86,26 +80,18 @@ const closeBigPicture = () => {
 
 };
 
-/*обработчик с делегированием*/
-pictureContainer.addEventListener('click', (evt) => {
-  const createdPicture = evt.target.closest('[data-picture-id]');
-  if (!createdPicture) {
-    return;
-  }
-  evt.preventDefault();
-  const picture = pictures.find(
-    (item) => item.id === +createdPicture.dataset.pictureId
-  );
-  showBigPicture(picture);
-});
+const onLikeClick = () => {
+  likesCounter += 1;
+  popupScreen.querySelector('.likes-count').textContent = likesCounter;
+};
 
-/*обработчик на нажатие на крестик*/
 popupScreenClose.addEventListener('click', () => {
   closeBigPicture ();
 });
 
-/*обработчик Загрузить еще*/
 const onCommentsLoaderClick = (evt) => {
   evt.preventDefault();
   renderComments();
 };
+
+export {showBigPicture};

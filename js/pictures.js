@@ -1,10 +1,7 @@
-//import {createComments} from './data.js';
 const picturesList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
-
-//const pictures = createComments();
 
 const renderPictures = (pictures) => {
   const pictureFragment = document.createDocumentFragment();

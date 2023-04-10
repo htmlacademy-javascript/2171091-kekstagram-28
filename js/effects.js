@@ -67,7 +67,7 @@ const onEffectsChange = (evt) => {
 //двигать ползунок
 const onSliderUpdate = () => {
   const sliderValue = slider.noUiSlider.get();
-  uploadedImage.style.filter = `${currentEffect.filter}(${slider.value}${currentEffect.unit})`;
+  uploadedImage.style.filter = `${currentEffect.filter}(${sliderValue}${currentEffect.unit})`;
   effectLevel.value = sliderValue;
 };
 
@@ -77,7 +77,8 @@ slider.noUiSlider.on('update', onSliderUpdate);
 
 const resetEffects = () => {
   currentEffect = DEFAULT_EFFECT;
-  uploadedImage.className = `effects__preview--${DEFAULT_EFFECT.name}`;
+  uploadedImage.style.filter = '';
+  uploadedImage.className = '';
   updateSlider();
   effectsContainer.removeEventListener('change', onEffectsChange);
 };

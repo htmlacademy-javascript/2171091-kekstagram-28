@@ -1,18 +1,19 @@
 import {isEscapeKey} from './util.js';
-import {setDefaultScale} from './zoom.js';
+import {setDefaultScale, zoomIn, zoomOut, increaseValueScale, decreaseValueScale} from './zoom.js';
 import {resetEffects, onEffectsChange} from './effects.js';
-import {checkUploadForm} from './validation.js';
-import {showAlert} from './util.js';
+import {pristine} from './validation.js';
+import {showErrorMessage, showSuccessMessage} from './alerts.js';
 import {sendData} from './api.js';
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
 const uploadCancel = uploadForm.querySelector('#upload-cancel');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const submitButton = uploadForm.querySelector('#upload-submit');
-
+const hashtagField = uploadForm.querySelector('.text__hashtags');
+const descriptionField = uploadForm.querySelector('.text__description');
 const submitButtonText = {
-  IDLE: 'Сохранить',
-  SENDING: 'Сохраняю...'
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
 };
 
 const onDocumentKeydown = (evt) => {
@@ -26,6 +27,24 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const onFocusTextInput = () => {
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+const onBlurTextInput = () => {
+  document.addEventListener('keydown', onDocumentKeydown);
+};
+
+const addFocusAndBlur = (target) => {
+  target.addEventListener('focus', onFocusTextInput);
+  target.addEventListener('blur', onBlurTextInput);
+};
+
+const removeFocusAndBlur = (target) => {
+  target.removeEventListener('focus', onFocusTextInput);
+  target.removeEventListener('blur', onBlurTextInput);
+};
+
 /*функция показать редактор*/
 const showEditor = () => {
   uploadOverlay.classList.remove('hidden');
@@ -33,17 +52,25 @@ const showEditor = () => {
   document.addEventListener('keydown', onDocumentKeydown);
   uploadForm.addEventListener('change',onEffectsChange);
   uploadCancel.addEventListener('click', closeEditor);
+  addFocusAndBlur(hashtagField);
+  addFocusAndBlur(descriptionField);
   setDefaultScale();
 };
 
 /*функция скрыть редактор*/
 const closeEditor = () => {
+  resetEffects();
+  setDefaultScale();
+  uploadFile.value = '';
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  uploadForm.removeEventListener('change', onEffectsChange);
-  uploadFile.value = '';
-  resetEffects();
+  document.removeEventListener('click', onDocumentKeydown);
+  uploadForm.removeEventListener('change', closeEditor);
+  increaseValueScale.removeEventListener('click', zoomIn);
+  decreaseValueScale.removeEventListener('click', zoomOut);
+  removeFocusAndBlur(hashtagField);
+  removeFocusAndBlur(descriptionField);
 };
 
 /*показать редактор*/
@@ -70,12 +97,16 @@ const unblockSubmitButton = () => {
 const setUploadFormSubmit = (onSuccess) => {
   uploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    if (checkUploadForm) {
+    const isValid = pristine.validate();
+    if (isValid) {
       blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(onSuccess)
+        .then(() =>{
+          showSuccessMessage();
+        })
         .catch((err) => {
-          showAlert(err.message);
+          showErrorMessage(err.message);
         }
         )
         .finally (unblockSubmitButton);

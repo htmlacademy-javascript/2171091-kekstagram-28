@@ -1,5 +1,6 @@
 //import './data.js';
 import {renderPictures} from './pictures.js';
+import {showAlert} from './util.js';
 import './fullscreenpicture.js';
 import {closeEditor} from'./uploadform.js';
 import {setUploadFormSubmit} from './uploadform.js';
@@ -10,6 +11,9 @@ const promise = getData()
     const posts = data;
     renderPictures(data);
     return posts;
+  })
+  .catch((err) => {
+    showAlert(err.message);
   });
 
 const pictures = await promise;

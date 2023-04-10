@@ -57,7 +57,5 @@ pristine.addValidator(
   'Ошибка: максимум 200 символов в комментарии.'
 );
 
-const checkUploadForm = pristine.validate();
 
-
-export {checkUploadForm};
+export {pristine};

@@ -1,8 +1,9 @@
-import {uploadForm, inputHashtag, inputComment} from './uploadform.js';
 const VALIDHASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAXNUMBERHASHTAG = 5;
 const MAXLENGTHCOMMENT = 200;
-
+const uploadForm = document.querySelector('.img-upload__form');
+const inputHashtag = uploadForm.querySelector('.text__hashtags');
+const inputComment = uploadForm.querySelector('.text__description');
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--invalid',
@@ -56,8 +57,5 @@ pristine.addValidator(
   'Ошибка: максимум 200 символов в комментарии.'
 );
 
-uploadForm.addEventListener('submit', (evt) => {
-  if (!pristine.validate()){
-    evt.preventDefault();
-  }
-});
+
+export {pristine};

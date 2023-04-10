@@ -1,7 +1,7 @@
 const previewContainer = document.querySelector('.img-upload__preview-container');
 const uploadedImage = previewContainer.querySelector('.img-upload__preview img'); //загруженная пикча
-const increaseValue = previewContainer.querySelector('.scale__control--bigger'); //кнопка +
-const decreaseValue = previewContainer.querySelector('.scale__control--smaller'); //кнопка -
+const increaseValueScale = previewContainer.querySelector('.scale__control--bigger'); //кнопка +
+const decreaseValueScale = previewContainer.querySelector('.scale__control--smaller'); //кнопка -
 const scaleValueField = previewContainer.querySelector('.scale__control--value'); // масштаб
 
 const SCALE_STEP = 25;
@@ -29,11 +29,11 @@ const zoomOut = () => {
   }
 };
 
-increaseValue.addEventListener('click',() => {
+increaseValueScale.addEventListener('click',() => {
   zoomIn();
 });
-decreaseValue.addEventListener('click',() => {
+decreaseValueScale.addEventListener('click',() => {
   zoomOut();
 });
 
-export {setDefaultScale};
+export {setDefaultScale, zoomIn, zoomOut, increaseValueScale, decreaseValueScale};

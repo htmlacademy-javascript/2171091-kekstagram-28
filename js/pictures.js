@@ -1,13 +1,15 @@
-//import {createComments} from './data.js';
 const picturesList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
-
-//const pictures = createComments();
+const picturesOld = picturesList.querySelectorAll('.picture');
 
 const renderPictures = (pictures) => {
+  if (picturesOld.length > 0) {
+    picturesOld.forEach((picture) => picture.remove());
+  }
   const pictureFragment = document.createDocumentFragment();
+
   pictures.forEach(({id, url, description, likes, comments}) => {
     const createdPicture = pictureTemplate.cloneNode(true);
     createdPicture.querySelector('.picture__img').src = url;
@@ -19,4 +21,5 @@ const renderPictures = (pictures) => {
   });
   picturesList.appendChild(pictureFragment);
 };
+
 export {renderPictures};

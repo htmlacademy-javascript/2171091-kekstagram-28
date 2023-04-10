@@ -77,9 +77,8 @@ slider.noUiSlider.on('update', onSliderUpdate);
 
 const resetEffects = () => {
   currentEffect = DEFAULT_EFFECT;
-  uploadedImage.className = `effects__preview--${DEFAULT_EFFECT.name}`;
   updateSlider();
   effectsContainer.removeEventListener('change', onEffectsChange);
 };
 
-export {resetEffects, onEffectsChange};
+export {updateSlider, resetEffects, onEffectsChange};

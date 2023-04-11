@@ -13,7 +13,7 @@ const commentTemplate = document.querySelector('#comment')
 const COMMENTS_PART = 5;
 let likesCounter = 0;
 let commentsShown = 0;
-let comments = [];
+let commentsArray = [];
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -46,22 +46,22 @@ const renderCommentData = (({avatar, name, message}) => {
 const renderComments = () => {
   commentsShown += COMMENTS_PART;
 
-  if(commentsShown >= comments.length) {
+  if(commentsShown >= commentsArray.length) {
     commentsLoader.classList.add('hidden');
-    commentsShown = comments.length;
+    commentsShown = commentsArray.length;
   } else {
     commentsLoader.classList.remove('hidden');
   }
 
   const fragment = document.createDocumentFragment();
   for (let i = 0; i < commentsShown; i++) {
-    const commentElement = renderCommentData(comments[i]);
+    const commentElement = renderCommentData(commentsArray[i]);
     fragment.appendChild(commentElement);
   }
 
   commentsList.innerHTML = '';
   commentsList.appendChild(fragment);
-  commentsCount.innerHTML = `${commentsShown} из <span class="comments-count">${comments.length}</span> комментариев`;
+  commentsCount.innerHTML = `${commentsShown} из <span class="comments-count">${commentsArray.length}</span> комментариев`;
 };
 
 const onCommentsLoaderClick = (evt) => {
@@ -77,8 +77,8 @@ const showBigPicture = (data) => {
   popupScreen.querySelector('.likes-count').addEventListener('click', onLikeClick);
   likesCounter = data.likes;
   renderPictureData(data);
-  comments = data.comments;
-  if (comments.length > 0) {
+  commentsArray = data.comments;
+  if (commentsArray.length > 0) {
     renderComments();
   }
 };

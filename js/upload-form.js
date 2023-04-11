@@ -17,6 +17,8 @@ const submitButtonText = {
   SENDING: 'Публикую...'
 };
 
+let closeEditor = null;
+
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -61,7 +63,7 @@ const showEditor = () => {
   setDefaultScale();
 };
 
-const closeEditor = () => {
+closeEditor = () => {
   resetEffects();
   uploadFile.value = '';
   hashtagField.value = '';

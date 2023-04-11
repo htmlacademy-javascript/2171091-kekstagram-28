@@ -65,6 +65,7 @@ const showBigPicture = (data) => {
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   commentsLoader.addEventListener('click', onCommentsLoaderClick);
+  popupScreen.querySelector('.likes-count').addEventListener('click', onLikeClick);
   likesCounter = data.likes;
   renderPictureData(data);
   comments = data.comments;
@@ -77,6 +78,7 @@ const closeBigPicture = () => {
   popupScreen.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   commentsLoader.removeEventListener('click', onCommentsLoaderClick);
+  popupScreen.querySelector('.likes-count').removeEventListener('click', onLikeClick);
 
 };
 

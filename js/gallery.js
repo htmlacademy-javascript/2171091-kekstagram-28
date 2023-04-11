@@ -18,9 +18,9 @@ const onPictureClick = (evt) => {
 
 const renderGallery = (currentPictures) => {
   pictures = currentPictures;
-  pictureContainer.addEventListener('click', onPictureClick);
-
   renderPictures(pictures, pictureContainer);
 };
+
+pictureContainer.addEventListener('click', onPictureClick);
 
 export {renderGallery};

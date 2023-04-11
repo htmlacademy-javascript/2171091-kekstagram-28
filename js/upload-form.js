@@ -56,7 +56,6 @@ const showEditor = () => {
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   uploadForm.addEventListener('change',onEffectsChange);
-  uploadCancel.addEventListener('click', closeEditor);
   addFocusAndBlur(hashtagField);
   addFocusAndBlur(descriptionField);
   setDefaultScale();
@@ -71,8 +70,8 @@ const closeEditor = () => {
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('click', onDocumentKeydown);
-  uploadForm.removeEventListener('change', closeEditor);
+  document.removeEventListener('click', closeEditor);
+  uploadForm.removeEventListener('change', onEffectsChange);
   increaseValueScale.removeEventListener('click', zoomIn);
   decreaseValueScale.removeEventListener('click', zoomOut);
   removeFocusAndBlur(hashtagField);

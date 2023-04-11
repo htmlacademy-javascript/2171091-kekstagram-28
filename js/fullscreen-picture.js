@@ -22,6 +22,11 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const onLikeClick = () => {
+  likesCounter += 1;
+  popupScreen.querySelector('.likes-count').textContent = likesCounter;
+};
+
 const renderPictureData = (({url, likes, comments, description}) => {
   popupScreen.querySelector('.big-picture__img img').src = url;
   popupScreen.querySelector('.likes-count').textContent = likes;
@@ -59,6 +64,11 @@ const renderComments = () => {
   commentsCount.innerHTML = `${commentsShown} из <span class="comments-count">${comments.length}</span> комментариев`;
 };
 
+const onCommentsLoaderClick = (evt) => {
+  evt.preventDefault();
+  renderComments();
+};
+
 const showBigPicture = (data) => {
   popupScreen.classList.remove('hidden');
   body.classList.add('modal-open');
@@ -81,18 +91,8 @@ const closeBigPicture = () => {
 
 };
 
-const onLikeClick = () => {
-  likesCounter += 1;
-  popupScreen.querySelector('.likes-count').textContent = likesCounter;
-};
-
 popupScreenClose.addEventListener('click', () => {
   closeBigPicture ();
 });
-
-const onCommentsLoaderClick = (evt) => {
-  evt.preventDefault();
-  renderComments();
-};
 
 export {showBigPicture};

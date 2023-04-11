@@ -56,7 +56,6 @@ const showEditor = () => {
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   uploadForm.addEventListener('change',onEffectsChange);
-  uploadCancel.addEventListener('click', closeEditor);
   addFocusAndBlur(hashtagField);
   addFocusAndBlur(descriptionField);
   setDefaultScale();

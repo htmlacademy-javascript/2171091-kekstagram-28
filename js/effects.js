@@ -5,7 +5,7 @@ const slider = previewContainer.querySelector('.effect-level__slider');
 const sliderContainer = previewContainer.querySelector('.img-upload__effect-level');
 const effectLevel = previewContainer.querySelector('.effect-level__value');
 
-const FILTERS = [
+const EFFECTS = [
   {name: 'none', filter: 'none', min: 0, max: 100, step: 1, unit: ''},
   {name: 'chrome', filter: 'grayscale', min: 0, max: 1, step: 0.1, unit: ''},
   {name: 'sepia', filter: 'sepia', min: 0, max: 1, step: 0.1, unit: ''},
@@ -14,7 +14,7 @@ const FILTERS = [
   {name: 'heat', filter: 'brightness', min: 1, max: 3, step: 0.1, unit: ''}
 ];
 
-const DEFAULT_EFFECT = FILTERS[0];
+const DEFAULT_EFFECT = EFFECTS[0];
 let currentEffect = DEFAULT_EFFECT;
 
 const showSlider = () => {
@@ -55,16 +55,14 @@ const updateSlider = () => {
   });
 };
 
-//переключать фильтры
 const onEffectsChange = (evt) => {
   if (evt.target.classList.contains('effects__radio')) {
-    currentEffect = FILTERS.find((effect) => effect.name === evt.target.value);
+    currentEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
     uploadedImage.className = `effects__preview--${evt.target.value}`;
     updateSlider();
   }
 };
 
-//двигать ползунок
 const onSliderUpdate = () => {
   const sliderValue = slider.noUiSlider.get();
   uploadedImage.style.filter = `${currentEffect.filter}(${sliderValue}${currentEffect.unit})`;

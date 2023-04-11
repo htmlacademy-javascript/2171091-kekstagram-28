@@ -4,6 +4,7 @@ import {resetEffects, onEffectsChange} from './effects.js';
 import {pristine} from './validation.js';
 import {showErrorMessage, showSuccessMessage} from './alerts.js';
 import {sendData} from './api.js';
+
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
 const uploadCancel = uploadForm.querySelector('#upload-cancel');
@@ -49,7 +50,6 @@ const removeFocusAndBlur = (target) => {
   target.removeEventListener('blur', onBlurTextInput);
 };
 
-/*функция показать редактор*/
 const showEditor = () => {
   resetEffects();
   uploadOverlay.classList.remove('hidden');
@@ -62,7 +62,6 @@ const showEditor = () => {
   setDefaultScale();
 };
 
-/*функция скрыть редактор*/
 const closeEditor = () => {
   resetEffects();
   uploadFile.value = '';
@@ -80,13 +79,11 @@ const closeEditor = () => {
   removeFocusAndBlur(descriptionField);
 };
 
-/*показать редактор*/
 uploadFile.addEventListener('change', (evt) => {
   evt.preventDefault();
   showEditor();
 });
 
-/*закрыть редактор крестиком*/
 uploadCancel.addEventListener('click', () => {
   closeEditor ();
 });

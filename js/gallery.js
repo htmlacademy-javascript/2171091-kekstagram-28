@@ -1,5 +1,5 @@
 import {renderPictures} from './pictures.js';
-import {showBigPicture} from './fullscreenpicture.js';
+import {showBigPicture} from './fullscreen-picture.js';
 
 const pictureContainer = document.querySelector('.pictures');
 let pictures = [];

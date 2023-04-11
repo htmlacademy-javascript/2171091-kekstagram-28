@@ -17,4 +17,5 @@ const renderPictures = (pictures) => {
   });
   picturesList.appendChild(pictureFragment);
 };
+
 export {renderPictures};

@@ -1,11 +1,9 @@
 import {renderGallery} from './gallery.js';
 import {showAlert, debounce} from './util.js';
-import {closeEditor} from'./uploadform.js';
-import {setUploadFormSubmit} from './uploadform.js';
+import {closeEditor, setUploadFormSubmit} from './upload-form.js';
 import {getData} from './api.js';
 import {initSorting, getFilteredPosts} from './sorting.js';
-import './fullscreenpicture.js';
-import './uploadfile.js';
+import './upload-file.js';
 
 getData()
   .then((data) => {

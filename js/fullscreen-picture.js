@@ -10,6 +10,10 @@ const commentTemplate = document.querySelector('#comment')
   .content
   .querySelector('.social__comment');
 
+const COMMENTS_PART = 5;
+let likesCounter = 0;
+let commentsShown = 0;
+let comments = [];
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -17,11 +21,6 @@ const onDocumentKeydown = (evt) => {
     closeBigPicture();
   }
 };
-
-const COMMENTS_PART = 5;
-let likesCounter = 0;
-let commentsShown = 0;
-let comments = [];
 
 const renderPictureData = (({url, likes, comments, description}) => {
   popupScreen.querySelector('.big-picture__img img').src = url;

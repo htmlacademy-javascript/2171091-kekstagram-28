@@ -15,6 +15,8 @@ let likesCounter = 0;
 let commentsShown = 0;
 let commentsArray = [];
 
+let closeBigPicture = null;
+
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -83,7 +85,7 @@ const showBigPicture = (data) => {
   }
 };
 
-const closeBigPicture = () => {
+closeBigPicture = () => {
   popupScreen.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   commentsLoader.removeEventListener('click', onCommentsLoaderClick);

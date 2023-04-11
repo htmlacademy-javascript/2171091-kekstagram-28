@@ -1,6 +1,6 @@
 const VALIDHASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
-const MAXNUMBERHASHTAG = 5;
-const MAXLENGTHCOMMENT = 200;
+const MAX_NUMBER_HASHTAG = 5;
+const MAX_LENGTH_COMMENT = 200;
 const uploadForm = document.querySelector('.img-upload__form');
 const inputHashtag = uploadForm.querySelector('.text__hashtags');
 const inputComment = uploadForm.querySelector('.text__description');
@@ -11,8 +11,6 @@ const pristine = new Pristine(uploadForm, {
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__error'
 });
-
-/*валидация хэштегов*/
 
 const checkHashtag = (value) => {
   const hashtages = value.split(' ');
@@ -27,7 +25,7 @@ pristine.addValidator(
 
 const checkHashtagCount = (value) => {
   const hashTages = value.split(' ');
-  return hashTages.length <= MAXNUMBERHASHTAG;
+  return hashTages.length <= MAX_NUMBER_HASHTAG;
 };
 
 pristine.addValidator(
@@ -47,15 +45,12 @@ pristine.addValidator(
   'Ошибка: хэш-теги повторяются.'
 );
 
-/*валидация комментариев*/
-
-const checkComment = (value) => value.length <= MAXLENGTHCOMMENT;
+const checkComment = (value) => value.length <= MAX_LENGTH_COMMENT;
 
 pristine.addValidator(
   inputComment,
   checkComment,
   'Ошибка: максимум 200 символов в комментарии.'
 );
-
 
 export {pristine};

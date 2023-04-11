@@ -1,23 +1,18 @@
-//import './data.js';
-import {renderPictures} from './pictures.js';
-import {showAlert} from './util.js';
-import './fullscreenpicture.js';
-import {closeEditor} from'./uploadform.js';
-import {setUploadFormSubmit} from './uploadform.js';
+import {renderGallery} from './gallery.js';
+import {showAlert, debounce} from './util.js';
+import {closeEditor, setUploadFormSubmit} from './upload-form.js';
 import {getData} from './api.js';
+import {initSorting, getFilteredPosts} from './sorting.js';
+import './upload-file.js';
 
-const promise = getData()
+getData()
   .then((data) => {
-    const posts = data;
-    renderPictures(data);
-    return posts;
+    const debouncedRenderPictures = debounce(renderGallery);
+    initSorting(data, debouncedRenderPictures);
+    renderGallery(getFilteredPosts());
   })
   .catch((err) => {
     showAlert(err.message);
   });
 
-const pictures = await promise;
-
 setUploadFormSubmit(closeEditor);
-
-export {pictures};

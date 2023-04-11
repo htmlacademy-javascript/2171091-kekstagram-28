@@ -4,6 +4,7 @@ import {resetEffects, onEffectsChange} from './effects.js';
 import {pristine} from './validation.js';
 import {showErrorMessage, showSuccessMessage} from './alerts.js';
 import {sendData} from './api.js';
+
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
 const uploadCancel = uploadForm.querySelector('#upload-cancel');
@@ -19,9 +20,13 @@ const submitButtonText = {
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
+    resetEffects();
+    uploadFile.value = '';
+    hashtagField.value = '';
+    descriptionField.value = '';
     uploadOverlay.classList.add('hidden');
     document.body.classList.remove('modal-open');
-    document.getElementById('upload-select-image').reset();
+    uploadForm.reset();
     uploadForm.removeEventListener('change', onEffectsChange);
     uploadCancel.removeEventListener('click', closeEditor);
   }
@@ -45,8 +50,8 @@ const removeFocusAndBlur = (target) => {
   target.removeEventListener('blur', onBlurTextInput);
 };
 
-/*функция показать редактор*/
 const showEditor = () => {
+  resetEffects();
   uploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
@@ -57,11 +62,12 @@ const showEditor = () => {
   setDefaultScale();
 };
 
-/*функция скрыть редактор*/
 const closeEditor = () => {
   resetEffects();
-  setDefaultScale();
   uploadFile.value = '';
+  hashtagField.value = '';
+  descriptionField.value = '';
+  uploadForm.reset();
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -73,13 +79,11 @@ const closeEditor = () => {
   removeFocusAndBlur(descriptionField);
 };
 
-/*показать редактор*/
 uploadFile.addEventListener('change', (evt) => {
   evt.preventDefault();
   showEditor();
 });
 
-/*закрыть редактор крестиком*/
 uploadCancel.addEventListener('click', () => {
   closeEditor ();
 });

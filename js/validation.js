@@ -1,4 +1,4 @@
-const VALIDHASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
+const VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_NUMBER_HASHTAG = 5;
 const MAX_LENGTH_COMMENT = 200;
 const uploadForm = document.querySelector('.img-upload__form');
@@ -14,7 +14,7 @@ const pristine = new Pristine(uploadForm, {
 
 const checkHashtag = (value) => {
   const hashtages = value.split(' ');
-  return !value.length ? true : hashtages.every((hashtag) => VALIDHASHTAG.test(hashtag));
+  return !value.length ? true : hashtages.every((hashtag) => VALID_HASHTAG.test(hashtag));
 };
 
 pristine.addValidator(

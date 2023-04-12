@@ -1,17 +1,17 @@
-import {isEscapeKey} from './util.js';
+import {isEscapeKey} from './utils.js';
 
 const successUploadTemplate = document.querySelector('#success').content;
 const errorUploadTemplate = document.querySelector('#error').content;
-const getUploadStatus = () => document.querySelector('.success') || document.querySelector('.error');
+const uploadStatusElement = () => document.querySelector('.success') || document.querySelector('.error');
 
 const closeMessage = () => {
-  getUploadStatus().remove();
+  uploadStatusElement().remove();
   document.removeEventListener('keydown', onMessageEsc);
   document.removeEventListener('click', onOutsideClick);
 };
 
 const hideMessage = () => {
-  if(getUploadStatus() !== null){
+  if(uploadStatusElement() !== null){
     closeMessage();
   }
 };
@@ -24,7 +24,7 @@ function onMessageEsc (evt) {
 }
 
 function onOutsideClick (evt) {
-  if(evt.target === getUploadStatus()) {
+  if(evt.target === uploadStatusElement()) {
     closeMessage();
   }
 }

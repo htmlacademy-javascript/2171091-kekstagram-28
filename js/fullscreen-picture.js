@@ -1,4 +1,6 @@
-import {isEscapeKey} from './util.js';
+import {isEscapeKey} from './utils.js';
+
+const COMMENTS_PART = 5;
 
 const body = document.querySelector('body');
 const popupScreen = document.querySelector('.big-picture');
@@ -10,10 +12,9 @@ const commentTemplate = document.querySelector('#comment')
   .content
   .querySelector('.social__comment');
 
-const COMMENTS_PART = 5;
 let likesCounter = 0;
 let commentsShown = 0;
-let commentsArray = [];
+let commentsAll = [];
 
 let closeBigPicture = null;
 
@@ -43,27 +44,31 @@ const renderCommentData = (({avatar, name, message}) => {
 const renderComments = () => {
   commentsShown += COMMENTS_PART;
 
-  if(commentsShown >= commentsArray.length) {
+  if(commentsShown >= commentsAll.length) {
     commentsLoader.classList.add('hidden');
-    commentsShown = commentsArray.length;
+    commentsShown = commentsAll.length;
   } else {
     commentsLoader.classList.remove('hidden');
   }
 
   const fragment = document.createDocumentFragment();
   for (let i = 0; i < commentsShown; i++) {
-    const commentElement = renderCommentData(commentsArray[i]);
+    const commentElement = renderCommentData(commentsAll[i]);
     fragment.appendChild(commentElement);
   }
 
   commentsList.innerHTML = '';
   commentsList.appendChild(fragment);
-  commentsCount.innerHTML = `${commentsShown} из <span class="comments-count">${commentsArray.length}</span> комментариев`;
+  commentsCount.innerHTML = `${commentsShown} из <span class="comments-count">${commentsAll.length}</span> комментариев`;
 };
 
 const onCommentsLoaderClick = (evt) => {
   evt.preventDefault();
   renderComments();
+};
+
+const resetCommentsLoader = () => {
+  commentsShown = 0;
 };
 
 const onLikeClick = () => {
@@ -79,8 +84,8 @@ const showBigPicture = (data) => {
   popupScreen.querySelector('.likes-count').addEventListener('click', onLikeClick);
   likesCounter = data.likes;
   renderPictureData(data);
-  commentsArray = data.comments;
-  if (commentsArray.length > 0) {
+  commentsAll = data.comments;
+  if (commentsAll.length > 0) {
     renderComments();
   }
 };
@@ -90,7 +95,7 @@ closeBigPicture = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
   commentsLoader.removeEventListener('click', onCommentsLoaderClick);
   popupScreen.querySelector('.likes-count').removeEventListener('click', onLikeClick);
-
+  resetCommentsLoader();
 };
 
 popupScreenClose.addEventListener('click', () => {

@@ -1,4 +1,4 @@
-import {isEscapeKey} from './util.js';
+import {isEscapeKey} from './utils.js';
 import {setDefaultScale, zoomIn, zoomOut, increaseValueScale, decreaseValueScale} from './zoom.js';
 import {resetEffects, onEffectsChange} from './effects.js';
 import {pristine} from './validation.js';
@@ -12,7 +12,7 @@ const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const submitButton = uploadForm.querySelector('#upload-submit');
 const hashtagField = uploadForm.querySelector('.text__hashtags');
 const descriptionField = uploadForm.querySelector('.text__description');
-const submitButtonText = {
+const SubmitButtonText = {
   IDLE: 'Опубликовать',
   SENDING: 'Публикую...'
 };
@@ -30,6 +30,8 @@ const onDocumentKeydown = (evt) => {
     document.body.classList.remove('modal-open');
     uploadForm.reset();
     uploadForm.removeEventListener('change', onEffectsChange);
+    increaseValueScale.removeEventListener('click', zoomIn);
+    decreaseValueScale.removeEventListener('click', zoomOut);
     uploadCancel.removeEventListener('click', closeEditor);
   }
 };
@@ -58,6 +60,8 @@ const showEditor = () => {
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   uploadForm.addEventListener('change',onEffectsChange);
+  increaseValueScale.addEventListener('click', zoomIn);
+  decreaseValueScale.addEventListener('click', zoomOut);
   addFocusAndBlur(hashtagField);
   addFocusAndBlur(descriptionField);
   setDefaultScale();
@@ -72,10 +76,10 @@ closeEditor = () => {
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('click', onDocumentKeydown);
-  uploadForm.removeEventListener('change', closeEditor);
+  uploadForm.removeEventListener('change', onEffectsChange);
   increaseValueScale.removeEventListener('click', zoomIn);
   decreaseValueScale.removeEventListener('click', zoomOut);
+  uploadCancel.removeEventListener('click', closeEditor);
   removeFocusAndBlur(hashtagField);
   removeFocusAndBlur(descriptionField);
 };
@@ -91,12 +95,12 @@ uploadCancel.addEventListener('click', () => {
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
-  submitButton.textContent = submitButtonText.SENDING;
+  submitButton.textContent = SubmitButtonText.SENDING;
 };
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
-  submitButton.textContent = submitButtonText.IDLE;
+  submitButton.textContent = SubmitButtonText.IDLE;
 };
 
 const setUploadFormSubmit = (onSuccess) => {

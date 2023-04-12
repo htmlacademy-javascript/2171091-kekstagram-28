@@ -1,5 +1,5 @@
 import {renderGallery} from './gallery.js';
-import {showAlert, debounce} from './util.js';
+import {showAlert, debounce} from './utils.js';
 import {closeEditor, setUploadFormSubmit} from './upload-form.js';
 import {getData} from './api.js';
 import {initSorting, getFilteredPosts} from './sorting.js';

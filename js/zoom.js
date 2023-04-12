@@ -1,12 +1,12 @@
+const SCALE_STEP = 25;
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+
 const previewContainer = document.querySelector('.img-upload__preview-container');
 const uploadedImage = previewContainer.querySelector('.img-upload__preview img');
 const increaseValueScale = previewContainer.querySelector('.scale__control--bigger');
 const decreaseValueScale = previewContainer.querySelector('.scale__control--smaller');
 const scaleValueField = previewContainer.querySelector('.scale__control--value');
-
-const SCALE_STEP = 25;
-const MIN_SCALE = 25;
-const MAX_SCALE = 100;
 
 const setDefaultScale = () => {
   scaleValueField.value = `${String(MAX_SCALE)} %`;
@@ -28,12 +28,5 @@ const zoomOut = () => {
     uploadedImage.style.transform = `scale(${scaleValueCurrent / 100})`;
   }
 };
-
-increaseValueScale.addEventListener('click',() => {
-  zoomIn();
-});
-decreaseValueScale.addEventListener('click',() => {
-  zoomOut();
-});
 
 export {setDefaultScale, zoomIn, zoomOut, increaseValueScale, decreaseValueScale};
